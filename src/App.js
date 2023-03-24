@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import { useState,useEffect, useCallback } from "react";
+import "./App.css";
+import Inputs from "./components/Inputs";
+import BookList from "./components/BookList";
+import{db} from "./components/firebase/firebase-config"
+import{collection, getDocs } from "firebase/firestore"
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const booksCollectionRef=collection(db, "allBooks")
+
+  useEffect(()=>{
+    const getAllBooks=async()=>{
+      const data = await getDocs(booksCollectionRef)
+      setBookList(data.docs.map((doc)=>({...doc.data(), id:doc.id})))
+      console.log(bookList)
+    }
+    getAllBooks()
+  },[])
+  const[bookList,setBookList]=useState([])
+  const [book, setBook] = useState({
+    author: "",
+    book: "",
+    cover: "",
+    pages: ``,
+  });
+  
+  
+
+
+  return <div className="App">
+    <Inputs 
+    book={book}
+    setBook={setBook}
+    bookList={bookList}
+    setBookList={setBookList}/>
+    <BookList
+    setBookList={setBookList}
+    bookList={bookList}/>
+
+  </div>;
 }
 
 export default App;
