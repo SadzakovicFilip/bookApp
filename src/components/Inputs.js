@@ -35,7 +35,7 @@ function Inputs({ book, setBook, setBookList }) {
           value={book.title}
           name="title"
           onChange={(e) =>
-            setBook((prev) => ({ ...prev, book: e.target.value }))
+            setBook((prev) => ({ ...prev, title: e.target.value }))
           }
           placeholder="book title"
         />
