@@ -3,6 +3,7 @@ import "../App.css";
 
 import { db } from "./firebase/firebase-config";
 import { addDoc, collection,getDocs } from "firebase/firestore";
+import { currentMonth } from "../App";
 
 const booksCollectionRef = collection(db, "allBooks");
 
@@ -10,20 +11,24 @@ function Inputs({ book, setBook, setBookList }) {
   
   const handleSubmit = (e) => {
     e.preventDefault();
+
     setBookList((prev) => [...prev, book]);
     setBook((prev) => ({ ...prev, title: `` }));
     setBook((prev) => ({ ...prev, author: `` }));
     setBook((prev) => ({ ...prev, cover: `` }));
     setBook((prev) => ({ ...prev, pages: `` }));
+
     const save = async () => {
       return await addDoc(booksCollectionRef, {
         title: book.title,
         author: book.author,
         cover: book.cover,
         pages: book.pages,
+        month: book.month
       });
     };
     save();
+
     const refresh=()=>{
       const getAllBooks=async()=>{
         const data = await getDocs(booksCollectionRef)
