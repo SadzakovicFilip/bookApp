@@ -1,0 +1,10 @@
+.navigation{
+    display: flex;
+    justify-content: space-around;
+    margin: 3vw 0;
+    background-color: aqua;
+}
+.active{
+    color: white;
+    background-color: blue;
+}

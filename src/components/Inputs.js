@@ -2,7 +2,7 @@ import React from "react";
 import "../App.css";
 
 import { db } from "./firebase/firebase-config";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection,getDocs } from "firebase/firestore";
 
 const booksCollectionRef = collection(db, "allBooks");
 
@@ -15,7 +15,6 @@ function Inputs({ book, setBook, setBookList }) {
     setBook((prev) => ({ ...prev, author: `` }));
     setBook((prev) => ({ ...prev, cover: `` }));
     setBook((prev) => ({ ...prev, pages: `` }));
-
     const save = async () => {
       return await addDoc(booksCollectionRef, {
         title: book.title,
@@ -25,6 +24,13 @@ function Inputs({ book, setBook, setBookList }) {
       });
     };
     save();
+    const refresh=()=>{
+      const getAllBooks=async()=>{
+        const data = await getDocs(booksCollectionRef)
+        setBookList(data.docs.map((doc)=>({...doc.data(), id:doc.id})))
+      }
+      getAllBooks()}
+      refresh()
   };
 
   return (
