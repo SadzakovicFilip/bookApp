@@ -20,7 +20,7 @@ function App() {
   const[bookList,setBookList]=useState([])
   const [book, setBook] = useState({
     author: "",
-    book: "",
+    title: "",
     cover: "",
     pages: ``,
   });
